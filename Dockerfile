@@ -1,8 +1,7 @@
-ARG FIVEM_NUM=1971
-ARG FIVEM_VER=1971-fbd5c11df14693e9be8a9b86b02689abfc790f69
-ARG DATA_VER=2bde7889b4593d842e911827a33294211f40de93
+ARG FIVEM_NUM=2108
+ARG FIVEM_VER=2108-d1f635d9936340f8b2376d56b1a260764d4da692
 
-FROM spritsail/alpine:3.10 as builder
+FROM smearieryeti/alpine:3.10 as builder
 
 ARG FIVEM_VER
 ARG DATA_VER
@@ -13,9 +12,9 @@ RUN wget -O- http://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/$
         | tar xJ --strip-components=1 \
             --exclude alpine/dev --exclude alpine/proc \
             --exclude alpine/run --exclude alpine/sys \
- && mkdir -p /output/opt/cfx-server-data \
- && wget -O- http://github.com/citizenfx/cfx-server-data/archive/${DATA_VER}.tar.gz \
-        | tar xz --strip-components=1 -C opt/cfx-server-data \
+ && mkdir -p /output/opt/yeti-server \
+ && wget -O- https://github.com/citizenfx/cfx-server-data/.tar.gz \
+        | tar xz --strip-components=1 -C opt/yeti-server-data \
     \
  && apk -p $PWD add tini
 
@@ -30,16 +29,16 @@ FROM scratch
 
 ARG FIVEM_VER
 ARG FIVEM_NUM
-ARG DATA_VER
 
-LABEL maintainer="Spritsail <fivem@spritsail.io>" \
-      org.label-schema.vendor="Spritsail" \
-      org.label-schema.name="FiveM" \
+
+LABEL maintainer="SmearierYeti <fivem@huntpunch.com>" \
+      org.label-schema.vendor="Smearieryeti     " \
+      org.label-schema.name="Yeti FiveM" \
       org.label-schema.url="https://fivem.net" \
       org.label-schema.description="FiveM is a modification for Grand Theft Auto V enabling you to play multiplayer on customized dedicated servers." \
       org.label-schema.version=${FIVEM_NUM} \
-      io.spritsail.version.fivem=${FIVEM_VER} \
-      io.spritsail.version.fivem_data=${DATA_VER}
+      com.huntpunch.version.fivem=${FIVEM_VER} \
+  
 
 COPY --from=builder /output/ /
 
