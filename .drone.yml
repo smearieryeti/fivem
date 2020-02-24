@@ -9,13 +9,13 @@ platform:
 steps:
 - name: build
   pull: always
-  image: spritsail/docker-build
+  image: smearieryeti/docker-build
   settings:
     repo: fivem-dev
 
 - name: publish
   pull: always
-  image: spritsail/docker-publish
+  image: smearieryeti/docker-publish
   settings:
     from: fivem-dev
     repo: spritsail/fivem
@@ -36,7 +36,7 @@ steps:
 
 - name: notify
   pull: always
-  image: spritsail/notify
+  image: smearieryeti/notify
   environment:
     NOTIFY_TOKEN:
       from_secret: notify_token
